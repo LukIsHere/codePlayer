@@ -5,12 +5,39 @@ var s_t = document.getElementById("start")
 var m_t = document.getElementById("middle")
 var e_t = document.getElementById("end")
 var data;
+var examp = [
+    {
+        s:"hi",
+        m:"im writing\nsth",
+        e:"end"
+    },
+    {
+        s:"#include <iostream>\n#define bc 0D\ntemplate<typename T>\n</textarea></p>\nto write",
+        m:"typedef int at;\nint gg(){//comment\n\n};\nint ww;\nclass foo{\n    public:\n        int x;\n        &bool operator==(foo s){\n            return true;\n        }\n        foo(){\n        }\n        int cpp(){\n        }\n}",
+        e:'int main(){\n    int* cc;\n    &foo oj;\n    ww + ffdd(ww);\n    int w = ww;\n    foo c("hi");\n    c.go();\n    c.www;\n    for(int i = 0;10>i;i++){\n        go();\n    }//bruh\n    std::cout << "hi" << std::endl;\n}'
+    },
+    {
+        s:"class foo{\n    k;\n    constructor(){\n        var i = 0\n    }\n}",
+        m:"var i = 0;\nfunction aa(){\n\n}\nfor(var ii = 0;10>ii;ii++){\n    if(i==3){\n        aa\n        gg();\n        i\n        var ex = new foo();\n        var c = false;//hi\n        /*\n        lubie\n        */\n    }\n}",
+        e:'function jj(){n    console.log("hi")\n   \'bruh\'\n}'
+    }
+]
+document.getElementById("lang").onchange = ()=>{
+    
+    var l = (document.getElementById("lang").value*1)
+    s_t.innerHTML = examp[l].s
+    m_t.innerHTML = examp[l].m
+    e_t.innerHTML = examp[l].e
+    data = new analize(s_t.value,m_t.value,e_t.value,cpp)
+    data.preview()
+}
 function hs(){
     document.getElementById("input").classList.add("hiden")
     animate()
 }
 m_t.addEventListener("change",() => {
-    
+    data = new analize(s_t.value,m_t.value,e_t.value,cpp)
+    data.preview()
 })
 document.getElementById("bg").onchange = ()=>{
     document.body.style.backgroundColor = document.getElementById("bg").value
@@ -47,20 +74,159 @@ class analize{
             m : middle.split("\n"),
             e : end.split("\n")
         }
-        this.type = type
-        switch (type) {
+        this.type = document.getElementById("lang").value
+        switch (this.type*1) {
             case plain:
-                
+                this.outs = this.decodenone(start)
+                this.out = this.decodenone(middle)
+                this.oute = this.decodenone(end)
                 break;
             case cpp:
                 this.outs = this.decodecpp(start)
                 this.out = this.decodecpp(middle)
                 this.oute = this.decodecpp(end)
+                console.log("cpp")
                 break;
             case js:
-
+                this.outs = this.decodejs(start)
+                this.out = this.decodejs(middle)
+                this.oute = this.decodejs(end)
+                break;
         }
         console.log(this)
+    }
+    decodenone(data){
+        var input = data.split("\n")
+        var outm = [];
+        input.forEach((oline,ind)=>{
+            outm[ind] = []
+            outm[ind].push(c("w",oline))
+            outm[ind].push(c("w","  "))
+        })
+        return outm
+    }
+    decodejs(data){
+        var input = data.split("\n")
+        var outm = [];
+        var curll=0;
+        var comment2 = false
+        input.forEach((oline,ind)=>{
+            console.log(oline)
+            outm[ind] = [];
+            var word = "";
+            var string = false;
+            var string2 = false;
+            var inside = "";
+            var char;
+            var comment = false
+            for(var i = 0;i<oline.length+1;i++){
+                if(i==oline.length)char=" ";
+                else char=oline.charAt(i);
+                var nchar = oline.charAt(i+1);
+                var fs = false;
+                if(char=='"'&&!string){
+                    string = true;
+                    fs==true
+                }
+                var fs2 = false;
+                if(char=="'"&&!string2){
+                    string2 = true;
+                    fs2==true
+                }
+                if(jskw.reseter.includes(char)){
+                    //keywords
+                    if(string||string2){
+                        outm[ind].push(c("o",word))
+                    }else if(comment||comment2){
+                        outm[ind].push(c("dg",word))
+                    }else if(this.classes.includes(word)){
+                        outm[ind].push(c("g",word))
+                    }else if(jskw.struct.includes(word)){
+                        inside = "cdef"
+                        outm[ind].push(c("db",word))
+                    }else if(jskw.justblue.includes(word)){
+                        outm[ind].push(c("db",word))
+                    }else if(inside=="vard"){
+                        if(word!=""){
+                            if(!this.vars.includes(word))this.vars.push(word);
+                            outm[ind].push(c("b",word))
+                            inside  = ""
+                        }
+                    }else if(inside=="cdef"){
+                        if(word!=""){
+                            if(!this.classes.includes(word))this.classes.push(word);
+                            outm[ind].push(c("g",word))
+                            inside  = ""
+                        }
+                    }else if(inside=="func"){
+                        if(word!=""){
+                            if(!this.functions.includes(word))this.functions.push(word);
+                            outm[ind].push(c("y",word))
+                            inside  = ""
+                        }
+                    }else if(this.functions.includes(word)){
+                        outm[ind].push(c("y",word))
+                    }else if(jskw.functions.includes(word)){
+                        inside = "func"
+                        outm[ind].push(c("db",word))
+                    }else if(jskw.varNames.includes(word)){
+                        inside = "vard";
+                        outm[ind].push(c("db",word))
+                    }else if(jskw.keywords.includes(word)){
+                        outm[ind].push(c("p",word))
+                    }else if(!isNaN(word)){
+                        outm[ind].push(c("a",word))
+                    }else if(char=="("){
+                        outm[ind].push(c("y",word))
+                    }else{
+                        outm[ind].push(c("b",word))
+                    }
+                    //reseter
+                    if(string||string2){
+                        outm[ind].push(c("o",char))
+                    }else if(comment||comment2){
+                        if(char=="*"&&nchar=="/"){
+                            i++;
+                            outm[ind].push(c("dg","*/"))
+                            comment2=false;
+                        }else outm[ind].push(c("dg",char))
+                    }else if(char=="/"&&nchar=="*"){
+                        outm[ind].push(c("dg","/*"))
+                        i++
+                        comment2=true
+                    }else if(char=="{"||char=="("||char=="["){
+                        var cs = curll%3
+                        curll++
+                        if(cs==0)outm[ind].push(c("p",char))
+                        if(cs==1)outm[ind].push(c("db",char))
+                        if(cs==2)outm[ind].push(c("y",char))
+                    }else if(char=="/"&&nchar=="/"){
+                        i++;
+                        outm[ind].push(c("dg","//"))
+                        comment = true
+                    }else if(char=="}"||char==")"||char=="]"){
+                        curll--
+                        var cs = curll%3
+                        if(cs==0)outm[ind].push(c("p",char))
+                        if(cs==1)outm[ind].push(c("db",char))
+                        if(cs==2)outm[ind].push(c("y",char))
+                    }else{
+                        outm[ind].push(c("w",char))
+                    }
+                    if(char=='"'&&string&&!fs&&!string2){
+                        string = false;
+                    }
+                    if(char=="'"&&string2&&!fs2&&!string){
+                        string2 = false;
+                    }
+                    word="";
+                }else{
+                    word+=char;
+                    
+                }
+            }
+        })
+        return outm;
     }
     decodecpp(data){
         var input = data.split("\n")
@@ -72,6 +238,7 @@ class analize{
         var where = ["start"];
         var classn;
         var curll = 0;
+        var comment2 = false
         input.forEach((oline,ind) => {
             outm[ind] = []
             console.log(oline)
@@ -90,7 +257,7 @@ class analize{
                 else char = oline.charAt(i);
                 var nchar;
                 if(i+1>=oline.length)nchar=" "
-                else nchar = oline.charAt(i)
+                else nchar = oline.charAt(i+1)
                 if(char=="."||char=="::")inside = "vof";
                 if(char=='"'&&!string2){
                     if(!string)string = true
@@ -99,12 +266,12 @@ class analize{
                     if(!string2)string2 = true
                     string2 = !string2
                 }
-                if(char=="/"&&nchar=="/")comment = true
+                
                 if(cppkw.reseter.includes(char)){
                     console.log(word)
                     if(string||string2){
                         outm[ind].push(c("o",word))
-                    }else if(comment){
+                    }else if(comment||comment2){
                         outm[ind].push(c("dg",word))
                     }else if(word==""){
 
@@ -223,9 +390,11 @@ class analize{
                         }
                     }
                     //reseters
+                    if(char=="/"&&nchar=="/")comment = true
+                    if(char=="/"&&nchar=="*")comment2 = true
                     if(string||string2){
                         outm[ind].push(c("o",char))
-                    }else if(comment){
+                    }else if(comment||comment2){
                         outm[ind].push(c("dg",char))
                     }else if(char=="{"||char=="("||char=="["){
                         var cs = curll%3
@@ -294,6 +463,11 @@ class analize{
                     if(char=="'"&&!string){
                         if(string2)string2 = false
                     }
+                    if(char=="*"&&nchar=="/"){
+                        i++;
+                        outm[ind].push(c("dg","*/"))
+                        comment = true
+                    }
                 }else{
                     word += char
                 }
@@ -315,14 +489,20 @@ class analize{
         })
         return out
     }
+    preview(){
+        var inner = document.getElementById("m_out");
+        inner.innerHTML = this.encode(this.outs)+this.encode(this.out)+this.encode(this.oute)
+    }
     print(){
         var speed = document.getElementById("speed").value
         var inner = document.getElementById("m_out");
-        var cur = document.getElementById("cur").value
+        console.log(document.getElementById("cur").value)
+        var cur = (document.getElementById("cur").checked)
         var out = "";
         inner.innerHTML = "";
         var lines = this.out.length
         var words;
+        var full = this.encode(this.out)
         var starto = this.encode(this.outs);
         if(starto==undefined)starto="";
         var endo = this.encode(this.oute);
@@ -333,10 +513,9 @@ class analize{
         out+=this.out[inline][inword].c
         pcc(this.out);
         function pcc(input){
-            
             words = input[inline].length
             if(lines-1==inline){
-                inner.innerHTML = starto+out+"<p>"+endo
+                inner.innerHTML = starto+ full +"<p>"+endo
                 setTimeout(()=>{
                     document.getElementById("input").classList.remove("hiden")
                 },3000)
@@ -372,6 +551,95 @@ class analize{
     }
 }
 
+//js keywords
+var jskw = {
+    keywords : [
+        "await",
+        "break",
+        "case",
+        "catch",
+        "continue",
+        "default",
+        "do",
+        "else",
+        "enum",
+        "import",
+        "finally",
+        "for",
+        "if",
+        "instanceof",
+        "interface",
+        "new",
+        "package",
+        "return",
+        "switch",
+        "throw",
+        "try",
+        "while"
+    ],
+    justblue:[
+        "debugger",
+        "delete",
+        "extends",
+        "implements",
+        "export",
+        "in",
+        "private",
+        "protected",
+        "public",
+        "super",
+        "static",
+        "this",
+        "typeof",
+        "void",
+        "with",
+        "yield",
+        "constructor"
+    ],
+    varNames:[
+        "const",
+        "let",
+        "var"
+    ],
+    struct:[
+        "class"
+    ],
+    functions:[
+        "function"
+    ],
+    reseter : [
+        "   ",
+        " ",
+        "{",
+        "(",
+        "[",
+        "}",
+        "]",
+        ")",
+        "<",
+        ">",
+        ":",
+        ".",
+        ";",
+        '"',
+        "'",
+        "+",
+        "-",
+        "=",
+        "*",
+        "!",
+        "&",
+        "/"
+    ],
+    predef:[
+        "false",
+        "null",
+        "true",
+        "undefined"
+    ]
+}
+
+//cpp keywords
 var cppkw  = {
     keywords : [ //p
         "alignas",
@@ -507,7 +775,8 @@ var cppkw  = {
         "=",
         "*",
         "!",
-        "&"
+        "&",
+        "/"
     ],
     std : [
         //to-do
@@ -532,3 +801,5 @@ error
 pragma
 defined
 */
+var data = new analize(s_t.value,m_t.value,e_t.value,cpp)
+data.preview()
