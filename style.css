@@ -1,0 +1,38 @@
+body{
+    font-family: monospace;
+    background-color: rgb(24, 24, 24);
+    color: white;
+}
+.hiden{
+    display: none;
+}
+.g{
+    color: rgb(0, 233, 19);
+}
+.b{
+    color: rgb(0, 245, 245);
+}
+.lb{
+    color: rgb(71, 71, 255);
+}
+.a{
+    color: rgb(0, 182, 182);
+}
+.db{
+    color: rgb(104, 104, 241);
+}
+.p{
+    color: rgb(195, 43, 226);
+}
+.y{
+    color: yellow;
+}
+.dg{
+    color: green;
+}
+.w{
+    color: white;
+}
+.o{
+    color: orange;
+}

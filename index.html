@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codeReader</title>
+    <script src="./writer.js" defer></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="input">
+    speed
+    <p><input type="number" name="speed" id="speed" value="20"></p>
+    background
+    <p><input type="checkbox" id="cur">cursor</p>
+    <p><input type="color" name="bg" id="bg"></p>
+    language
+    <p><select name="lang" id="lang">
+        <option value="c++">C++</option>
+        <option value="javascript">javascript</option>
+        <option value="none">none</option>
+    </select></p>
+    <p>C++ only right now!!!</p>
+    start
+    <p><textarea name="start" id="start" cols="60" rows="5">
+#include <iostream>
+#define bc 0D
+template<typename T>
+    </textarea></p>
+    to write
+    <p><textarea name="middle" id="middle" cols="60" rows="20">
+typedef int at;
+int gg(){//comment
+
+};
+int ww;
+class foo{
+    public:
+        int x;
+        &bool operator==(foo s){
+            return true;
+        }
+        foo(){
+        }
+        int cpp(){
+        }
+}
+    </textarea></p>
+    end
+    <p><textarea name="end" id="end" cols="60" rows="15">
+int main(){
+    int* cc;
+    &foo oj;
+    ww + ffdd(ww);
+    int w = ww;
+    foo c("hi");
+    c.go();
+    c.www;
+    for(int i = 0;10>i;i++){
+        go();
+    }//bruh
+    std::cout << "hi" << std::endl;
+}
+    </textarea></p>
+    <p><button type="submit" onclick="hs()">start</button></p>
+    </div>
+    <pre>
+    <div id="code">
+        <div id="s"></div>
+        <div id="m_out"></div>
+        <div id="e"></div>
+        
+    </div>
+    </pre>
+</body>
+
+</html>
