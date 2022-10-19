@@ -1,4 +1,4 @@
-var plain = 0
+ivar plain = 0
 var cpp = 1
 var js = 2
 var s_t = document.getElementById("start")
@@ -12,7 +12,7 @@ var examp = [
         e:"end"
     },
     {
-        s:"#include <iostream>\n#define bc 0D\ntemplate<typename T>\n</textarea></p>\nto write",
+        s:"#include <iostream>\n#define bc 0D\ntemplate<typename T>",
         m:"typedef int at;\nint gg(){//comment\n\n};\nint ww;\nclass foo{\n    public:\n        int x;\n        &bool operator==(foo s){\n            return true;\n        }\n        foo(){\n        }\n        int cpp(){\n        }\n}",
         e:'int main(){\n    int* cc;\n    &foo oj;\n    ww + ffdd(ww);\n    int w = ww;\n    foo c("hi");\n    c.go();\n    c.www;\n    for(int i = 0;10>i;i++){\n        go();\n    }//bruh\n    std::cout << "hi" << std::endl;\n}'
     },
