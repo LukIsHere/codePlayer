@@ -1,4 +1,4 @@
-ivar plain = 0
+var plain = 0
 var cpp = 1
 var js = 2
 var s_t = document.getElementById("start")
