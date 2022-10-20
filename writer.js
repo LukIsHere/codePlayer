@@ -55,6 +55,14 @@ m_t.addEventListener("change",() => {
     data = new analize(s_t.value,m_t.value,e_t.value,cpp)
     data.preview()
 })
+s_t.addEventListener("change",() => {
+    data = new analize(s_t.value,m_t.value,e_t.value,cpp)
+    data.preview()
+})
+e_t.addEventListener("change",() => {
+    data = new analize(s_t.value,m_t.value,e_t.value,cpp)
+    data.preview()
+})
 document.getElementById("bg").onchange = ()=>{
     document.body.style.backgroundColor = document.getElementById("bg").value
 }
