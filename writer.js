@@ -15,7 +15,7 @@ var examp = [
     {
         s:"#include <iostream>\n#define bc 0D\ntemplate<typename T>",
         m:"typedef int at;\nint gg(){//comment\n\n};\nint ww;\nclass foo{\n    public:\n        int x;\n        &bool operator==(foo s){\n            return true;\n        }\n        foo(){\n        }\n        int cpp(){\n        }\n}",
-        e:'int main(){\n    int* cc;\n    &foo oj;\n    ww + ffdd(ww);\n    int w = ww;\n    foo c("hi");\n    c.go();\n    c.www;\n    for(int i = 0;10>i;i++){\n        go();\n    }//bruh\n    std::cout << "hi" << std::endl;\n}'
+        e:'int main(){\n    int* cc;\n    foo& oj;\n    ww + ffdd(ww);\n    int w = ww;\n    foo c("hi");\n    c.go();\n    c.www;\n    for(int i = 0;10>i;i++){\n        go();\n    }//bruh\n    std::cout << "hi" << std::endl;\n}'
     },
     {
         s:"class foo{\n    k;\n    constructor(){\n        var i = 0\n    }\n}",
@@ -285,7 +285,10 @@ class analize{
                 
                 if(cppkw.reseter.includes(char)){
                     console.log(word)
-                    if(string||string2){
+                    if(char==":"&&nchar==":"){
+                        outm[ind].push(c("b",word))
+                        inside = "vof";
+                    }else if(string||string2){
                         outm[ind].push(c("o",word))
                     }else if(comment||comment2){
                         outm[ind].push(c("dg",word))
@@ -325,8 +328,12 @@ class analize{
                     }else if(endd){
                         if(this.classes.includes(word)){
                             outm[ind][outm[ind].length-1]=(c("g","&"+word))
+                            inside = "vard"
                         }else if(cppkw.varNames.includes(word)){
                             outm[ind][outm[ind].length-1]=(c("db","&"+word))
+                            inside = "vard"
+                        }else{
+                            outm[ind][outm[ind].length-1]=(c("w","&"+word))
                         }
                     }else if(cppkw.typdef.includes(word)){
                         if(word=="typedef") inside = "tdf"
@@ -399,7 +406,7 @@ class analize{
                             outm[ind].push(c("b",word))
                             if(!this.vars.includes(word))this.vars.push(word);
                             inside = ""
-                        }else if(word*1!=NaN){
+                        }else if(!isNaN(word)){
                             outm[ind].push(c("a",word))
                         }else{
                             outm[ind].push(c(fcol,word))
@@ -410,6 +417,8 @@ class analize{
                     if(char=="/"&&nchar=="*")comment2 = true
                     if(string||string2){
                         outm[ind].push(c("o",char))
+                    }else if (inside == "nspc"){
+                        inside = ""
                     }else if(comment||comment2){
                         outm[ind].push(c("dg",char))
                     }else if(char=="{"||char=="("||char=="["){
@@ -484,6 +493,7 @@ class analize{
                         outm[ind].push(c("dg","*/"))
                         comment = true
                     }
+                    
                 }else{
                     word += char
                 }
@@ -698,7 +708,8 @@ var cppkw  = {
         "thread_local",
         "typeid",
         "void",
-        "wchar_t"
+        "wchar_t",
+        "string"
     ],
     preComp : [ //p
         "#include",
