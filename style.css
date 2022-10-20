@@ -7,34 +7,40 @@ body{
     display: none;
 }
 .g{
-    color: rgb(0, 233, 19);
+    color: #4ec98f;
+}
+.bl{
+    color: black;
 }
 .b{
-    color: rgb(0, 231, 231);
+    color: #7bdcf0;
 }
 .lb{
-    color: rgb(71, 71, 255);
+    color: #569cd6;
 }
 .a{
-    color: rgb(0, 182, 182);
+    color: #b5cea8;
 }
 .db{
-    color: rgb(104, 104, 241);
+    color: #569cd6;
 }
 .p{
-    color: rgb(195, 43, 226);
+    color: #c586c0;
 }
 .y{
-    color: yellow;
+    color: #ffd700;
+}
+.ly{
+    color: #dcdcaa;
 }
 .dg{
-    color: green;
+    color: #5e993e;
 }
 .w{
     color: white;
 }
 .o{
-    color: orange;
+    color: #ac916a;
 }
 a{
     color: white;

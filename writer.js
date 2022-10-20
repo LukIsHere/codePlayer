@@ -1,6 +1,7 @@
 var plain = 0
 var cpp = 1
 var js = 2
+var fcol = "w"
 var s_t = document.getElementById("start")
 var m_t = document.getElementById("middle")
 var e_t = document.getElementById("end")
@@ -22,6 +23,21 @@ var examp = [
         e:'function jj(){n    console.log("hi")\n   \'bruh\'\n}'
     }
 ]
+document.getElementById("dm").onchange = ()=>{
+    var dm = (document.getElementById("dm").checked)
+    if(dm){
+        document.body.style.background = "black";
+        document.body.style.color = "white";
+        fcol = "w"
+    }else{
+        fcol = "bl"
+        document.body.style.background = "white";
+        document.body.style.color = "black";
+    }
+    data = new analize(s_t.value,m_t.value,e_t.value,cpp)
+    data.preview()
+    
+}
 document.getElementById("lang").onchange = ()=>{
     
     var l = (document.getElementById("lang").value*1)
@@ -100,8 +116,8 @@ class analize{
         var outm = [];
         input.forEach((oline,ind)=>{
             outm[ind] = []
-            outm[ind].push(c("w",oline))
-            outm[ind].push(c("w","  "))
+            outm[ind].push(c(fcol,oline))
+            outm[ind].push(c(fcol,"  "))
         })
         return outm
     }
@@ -161,11 +177,11 @@ class analize{
                     }else if(inside=="func"){
                         if(word!=""){
                             if(!this.functions.includes(word))this.functions.push(word);
-                            outm[ind].push(c("y",word))
+                            outm[ind].push(c("ly",word))
                             inside  = ""
                         }
                     }else if(this.functions.includes(word)){
-                        outm[ind].push(c("y",word))
+                        outm[ind].push(c("ly",word))
                     }else if(jskw.functions.includes(word)){
                         inside = "func"
                         outm[ind].push(c("db",word))
@@ -177,7 +193,7 @@ class analize{
                     }else if(!isNaN(word)){
                         outm[ind].push(c("a",word))
                     }else if(char=="("){
-                        outm[ind].push(c("y",word))
+                        outm[ind].push(c("ly",word))
                     }else{
                         outm[ind].push(c("b",word))
                     }
@@ -211,7 +227,7 @@ class analize{
                         if(cs==1)outm[ind].push(c("db",char))
                         if(cs==2)outm[ind].push(c("y",char))
                     }else{
-                        outm[ind].push(c("w",char))
+                        outm[ind].push(c(fcol,char))
                     }
                     if(char=='"'&&string&&!fs&&!string2){
                         string = false;
@@ -353,10 +369,10 @@ class analize{
                                 }else fin = 0
                             }
                             if(oline.charAt(oline.length-1)=="{"||fin==2||input[ind+1].charAt(0)=="{"||inside=="vof"){
-                                outm[ind].push(c("y",word))
+                                outm[ind].push(c("ly",word))
                                 if(!this.functions.includes(word))this.functions.push(word);
                             }else if(inside!="vard"){
-                                outm[ind].push(c("y",word))
+                                outm[ind].push(c("ly",word))
                                 
                             }
                             else outm[ind].push(c("b",word))
@@ -386,7 +402,7 @@ class analize{
                         }else if(word*1!=NaN){
                             outm[ind].push(c("a",word))
                         }else{
-                            outm[ind].push(c("w",word))
+                            outm[ind].push(c(fcol,word))
                         }
                     }
                     //reseters
@@ -445,7 +461,7 @@ class analize{
                     }else if(cppkw.atr.includes(word)){
                         outm[ind].push(c("db",char))
                     }else{
-                        outm[ind].push(c("w",char))
+                        outm[ind].push(c(fcol,char))
                     }
                     if(char=="}"){
                         var exit = where.pop();
@@ -474,7 +490,7 @@ class analize{
                 
                 
             }
-            outm[ind].push(c("w",word))
+            outm[ind].push(c(fcol,word))
             word = ""
         });
         return outm;
@@ -803,3 +819,8 @@ defined
 */
 var data = new analize(s_t.value,m_t.value,e_t.value,cpp)
 data.preview()
+
+document.getElementById("lang").value = 1
+s_t.innerHTML = examp[1].s
+m_t.innerHTML = examp[1].m
+e_t.innerHTML = examp[1].e
